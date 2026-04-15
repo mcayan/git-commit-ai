@@ -15,42 +15,89 @@
 
 ## 安装
 
-### 使用 uv（推荐）
+### 全局安装（推荐，可在任意项目中使用）
+
+安装后 `git-commit-ai` 会成为系统级命令，在任何 Git 仓库目录下都能直接调用。
+
+#### 使用 uv tool（推荐）
 
 ```bash
-# 克隆仓库
+# 从本地路径安装
+uv tool install /path/to/git-commit-ai
+
+# 或从 Git 仓库安装
+git clone https://github.com/mcayan/git-commit-ai.git
+uv tool install ./git-commit-ai
+```
+
+#### 使用 pipx（隔离环境）
+
+```bash
+pipx install /path/to/git-commit-ai
+```
+
+#### 使用 pip
+
+```bash
+pip install /path/to/git-commit-ai
+```
+
+### 开发模式安装（仅开发此项目时使用）
+
+```bash
 git clone https://github.com/mcayan/git-commit-ai.git
 cd git-commit-ai
 
-# 安装依赖并以开发模式安装
+# uv 方式
 uv sync
+
+# 或 pip 方式
+pip install -e .
 ```
 
-### 使用 pip
+### 卸载
 
 ```bash
-pip install -e .
+# 如果使用 uv tool 安装的
+uv tool uninstall git-commit-ai
+
+# 如果使用 pipx 安装的
+pipx uninstall git-commit-ai
+
+# 如果使用 pip 安装的
+pip uninstall git-commit-ai
 ```
 
 ## 配置
 
-### 方式一：环境变量
+### 方式一：全局环境变量
+
+在 `~/.zshrc` 或 `~/.bashrc` 中添加：
 
 ```bash
 export OPENAI_API_KEY=sk-your-api-key-here
 ```
 
-### 方式二：.env 文件
+### 方式二：全局配置文件（推荐）
 
-在项目根目录或用户主目录下创建配置文件：
+在用户主目录创建 `~/.git-commit-ai.env`，配置一次即可在所有项目中使用：
 
 ```bash
-# 复制示例配置
-cp .env.example .env
+OPENAI_API_KEY=sk-your-api-key-here
+# OPENAI_BASE_URL=https://api.deepseek.com/v1
+# OPENAI_MODEL=gpt-4o-mini
+```
 
-# 编辑配置文件，填入你的 API Key
+### 方式三：项目级 .env 文件
+
+在项目根目录创建 `.env` 文件（优先级高于全局配置）：
+
+```bash
+cp .env.example .env
 vim .env
 ```
+
+> **配置加载优先级：** 项目目录 `.env` > 用户主目录 `~/.git-commit-ai.env` > 环境变量
 
 ### 配置项说明
 
@@ -62,9 +109,14 @@ vim .env
 
 ## 使用方法
 
+> **注意：** 本工具只读取 Git 暂存区（staged）的变更，使用前请先执行 `git add` 将改动添加到暂存区。
+
 ### 基本用法
 
 ```bash
+# 进入任意 Git 项目
+cd /path/to/your-project
+
 # 先暂存你的变更
 git add .
 
