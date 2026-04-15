@@ -1,0 +1,7 @@
+[project]
+name = "git-commit-ai"
+version = "0.1.0"
+description = "自动生成高质量 Git 提交信息"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
