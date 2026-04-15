@@ -1,19 +1,19 @@
-# git-commit-ai 🤖
+# git-commit-ai
 
 自动生成高质量 Git 提交信息的 CLI 工具。
 
 读取 `git diff --staged` 的内容，发送给 LLM（OpenAI），自动生成符合 [Conventional Commits](https://www.conventionalcommits.org/) 规范的提交信息。
 
-## ✨ 功能特性
+## 功能特性
 
-- 🔍 自动读取暂存区的变更内容
-- 🤖 调用 OpenAI API 智能生成提交信息
-- 📏 严格遵循 Conventional Commits 规范
-- 🌐 支持中文/英文提交信息
-- ✏️ 支持提交前预览、编辑、重新生成
-- 🔌 支持自定义 API 地址（兼容 DeepSeek 等第三方服务）
+- 自动读取暂存区的变更内容
+- 调用 OpenAI API 智能生成提交信息
+- 严格遵循 Conventional Commits 规范
+- 支持中文/英文提交信息
+- 支持提交前预览、编辑、重新生成
+- 支持自定义 API 地址（兼容 DeepSeek 等第三方服务）
 
-## 📦 安装
+## 安装
 
 ### 使用 uv（推荐）
 
@@ -32,7 +32,7 @@ uv sync
 pip install -e .
 ```
 
-## ⚙️ 配置
+## 配置
 
 ### 方式一：环境变量
 
@@ -56,11 +56,11 @@ vim .env
 
 | 配置项 | 必填 | 默认值 | 说明 |
 |--------|------|--------|------|
-| `OPENAI_API_KEY` | ✅ | - | OpenAI API Key |
-| `OPENAI_BASE_URL` | ❌ | OpenAI 官方地址 | 自定义 API 地址 |
-| `OPENAI_MODEL` | ❌ | `gpt-4o-mini` | 使用的模型名称 |
+| `OPENAI_API_KEY` | 是 | - | OpenAI API Key |
+| `OPENAI_BASE_URL` | 否 | OpenAI 官方地址 | 自定义 API 地址 |
+| `OPENAI_MODEL` | 否 | `gpt-4o-mini` | 使用的模型名称 |
 
-## 🚀 使用方法
+## 使用方法
 
 ### 基本用法
 
@@ -106,7 +106,7 @@ git-commit-ai --dry-run
 - **`r`** - 不满意？重新生成一条
 - **`n`** - 取消操作
 
-## 📝 Conventional Commits 规范
+## Conventional Commits 规范
 
 生成的提交信息遵循以下格式：
 
@@ -130,7 +130,7 @@ git-commit-ai --dry-run
 | `ci` | CI/CD 配置 |
 | `perf` | 性能优化 |
 
-## 🔌 使用第三方兼容服务
+## 使用第三方兼容服务
 
 本工具支持任何兼容 OpenAI API 格式的服务，只需修改 `OPENAI_BASE_URL`：
 
@@ -140,6 +140,6 @@ OPENAI_API_KEY=your-deepseek-key
 OPENAI_MODEL=deepseek-chat
 ```
 
-## 📄 许可证
+## 许可证
 
 MIT License

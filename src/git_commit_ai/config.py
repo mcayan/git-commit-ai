@@ -42,7 +42,7 @@ def get_api_key() -> str:
     api_key = os.getenv("OPENAI_API_KEY", "")
     if not api_key:
         raise SystemExit(
-            "❌ 未找到 OPENAI_API_KEY，请通过以下方式之一配置：\n"
+            "[错误] 未找到 OPENAI_API_KEY，请通过以下方式之一配置：\n"
             "   1. 设置环境变量: export OPENAI_API_KEY=sk-xxx\n"
             "   2. 在项目目录创建 .env 文件: OPENAI_API_KEY=sk-xxx\n"
             "   3. 在主目录创建 ~/.git-commit-ai.env 文件"

@@ -17,7 +17,7 @@ from git_commit_ai.llm import generate_commit_message
 # 初始化 Typer 应用和 Rich 控制台
 app = typer.Typer(
     name="git-commit-ai",
-    help="🤖 自动生成高质量 Git 提交信息",
+    help="自动生成高质量 Git 提交信息",
     add_completion=False,
 )
 console = Console()
@@ -42,37 +42,37 @@ def main(
         typer.Option("--dry-run", help="只生成 commit message，不执行提交"),
     ] = False,
 ) -> None:
-    """🤖 根据暂存区的变更自动生成 Git 提交信息"""
+    """根据暂存区的变更自动生成 Git 提交信息"""
 
     # 加载配置
     load_config()
 
     # 检查是否在 Git 仓库中
     if not is_git_repo():
-        console.print("❌ 当前目录不是 Git 仓库", style="bold red")
+        console.print("[错误] 当前目录不是 Git 仓库", style="bold red")
         raise typer.Exit(1)
 
     # 获取暂存区 diff
-    console.print("📝 正在读取暂存区变更...", style="dim")
+    console.print("正在读取暂存区变更...", style="dim")
     diff = get_staged_diff()
 
     if not diff:
         console.print(
-            "⚠️  暂存区没有变更内容，请先执行 [bold]git add[/bold] 添加文件",
+            "[警告] 暂存区没有变更内容，请先执行 [bold]git add[/bold] 添加文件",
             style="yellow",
         )
         raise typer.Exit(1)
 
     # 获取变更文件列表
     files = get_staged_files()
-    console.print(f"📂 变更文件: [cyan]{', '.join(files)}[/cyan]")
+    console.print(f"变更文件: [cyan]{', '.join(files)}[/cyan]")
 
     # 展示 diff 摘要
     diff_lines = diff.count("\n") + 1
-    console.print(f"📊 diff 共 {diff_lines} 行\n", style="dim")
+    console.print(f"diff 共 {diff_lines} 行\n", style="dim")
 
     # 调用 LLM 生成 commit message
-    console.print("🤖 正在生成提交信息...", style="bold blue")
+    console.print("正在生成提交信息...", style="bold blue")
     message = generate_commit_message(diff, files, model=model, lang=lang)
 
     # 展示生成的 commit message
@@ -80,7 +80,7 @@ def main(
     console.print(
         Panel(
             Syntax(message, "text", theme="monokai", word_wrap=True),
-            title="✨ 生成的提交信息",
+            title="生成的提交信息",
             border_style="green",
             padding=(1, 2),
         )
@@ -88,14 +88,14 @@ def main(
 
     # 如果是 dry-run 模式，只展示不提交
     if dry_run:
-        console.print("\n🔍 [dim]dry-run 模式，不执行提交[/dim]")
+        console.print("\n[dim]dry-run 模式，不执行提交[/dim]")
         raise typer.Exit(0)
 
     # 确认或直接提交
     if yes:
         # 直接提交
         commit(message)
-        console.print("\n✅ 提交成功！", style="bold green")
+        console.print("\n提交成功!", style="bold green")
     else:
         # 交互式确认
         console.print()
@@ -112,19 +112,19 @@ def main(
             edited = typer.edit(message)
             if edited and edited.strip():
                 commit(edited.strip())
-                console.print("\n✅ 提交成功！", style="bold green")
+                console.print("\n提交成功!", style="bold green")
             else:
-                console.print("❌ 提交信息为空，已取消", style="red")
+                console.print("[错误] 提交信息为空，已取消", style="red")
                 raise typer.Exit(1)
         elif action.lower() == "r":
             # 重新生成
-            console.print("\n🔄 正在重新生成...", style="bold blue")
+            console.print("\n正在重新生成...", style="bold blue")
             new_message = generate_commit_message(diff, files, model=model, lang=lang)
             console.print()
             console.print(
                 Panel(
                     Syntax(new_message, "text", theme="monokai", word_wrap=True),
-                    title="✨ 重新生成的提交信息",
+                    title="重新生成的提交信息",
                     border_style="green",
                     padding=(1, 2),
                 )
@@ -132,7 +132,7 @@ def main(
             confirm = typer.confirm("是否使用这条提交信息？")
             if confirm:
                 commit(new_message)
-                console.print("\n✅ 提交成功！", style="bold green")
+                console.print("\n提交成功!", style="bold green")
             else:
                 console.print("已取消", style="dim")
                 raise typer.Exit(0)

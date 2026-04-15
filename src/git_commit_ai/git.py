@@ -44,7 +44,7 @@ def get_staged_diff() -> str:
         )
         return result.stdout.strip()
     except subprocess.CalledProcessError as e:
-        raise SystemExit(f"❌ 获取 git diff 失败: {e.stderr}") from e
+        raise SystemExit(f"[错误] 获取 git diff 失败: {e.stderr}") from e
 
 
 def get_staged_files() -> list[str]:
@@ -85,4 +85,4 @@ def commit(message: str) -> bool:
         )
         return True
     except subprocess.CalledProcessError as e:
-        raise SystemExit(f"❌ git commit 执行失败: {e}") from e
+        raise SystemExit(f"[错误] git commit 执行失败: {e}") from e

@@ -57,7 +57,7 @@ def generate_commit_message(
         # 提取生成的内容
         message = response.choices[0].message.content
         if not message:
-            raise SystemExit("❌ LLM 返回了空内容，请重试")
+            raise SystemExit("[错误] LLM 返回了空内容，请重试")
 
         # 清理输出：去除可能的多余引号和代码块标记
         message = message.strip().strip("`").strip('"').strip("'")
@@ -72,9 +72,9 @@ def generate_commit_message(
         error_msg = str(e)
         # 提供友好的错误提示
         if "401" in error_msg or "Unauthorized" in error_msg:
-            raise SystemExit("❌ API Key 无效，请检查 OPENAI_API_KEY 配置") from e
+            raise SystemExit("[错误] API Key 无效，请检查 OPENAI_API_KEY 配置") from e
         if "429" in error_msg or "rate_limit" in error_msg:
-            raise SystemExit("❌ API 请求频率超限，请稍后重试") from e
+            raise SystemExit("[错误] API 请求频率超限，请稍后重试") from e
         if "timeout" in error_msg.lower():
-            raise SystemExit("❌ API 请求超时，请检查网络连接") from e
-        raise SystemExit(f"❌ LLM 调用失败: {error_msg}") from e
+            raise SystemExit("[错误] API 请求超时，请检查网络连接") from e
+        raise SystemExit(f"[错误] LLM 调用失败: {error_msg}") from e
